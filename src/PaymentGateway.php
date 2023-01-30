@@ -2,11 +2,13 @@
 
 namespace Llorcasantana\PaymentsLaravelLl;
 
-use Llorcasantana\PaymentsLaravelLl\payments_libraries\Redsys;
+
+use \Ssheduardo\Redsys\Facades\Redsys;
 
 class PaymentGateway
 {
     public string $payment_method = '';
+    public string $num_operacion = '';
     public string $payment_order = '';
     public string $payment_merchant_code = '';
     public string $payment_currency = '978';
@@ -24,6 +26,8 @@ class PaymentGateway
     public string $payment_titular = 'Pedro Risco';
     public string $payment_product_description = 'Compras varias';
     public string $payment_api_url_ko = '';
+    public string $payment_enviroiment = '';
+    public string $payment_key = '';
 
     public function loadData(): string
     {
@@ -42,28 +46,26 @@ class PaymentGateway
      */
     private function initRedsys(): string
     {
-        $key = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7';
-        $redsys = new Redsys();
+        $key = $this->payment_key;
+        Redsys::setAmount($this->payment_amount);
+        Redsys::setOrder($this->num_operacion);
+        Redsys::setMerchantcode($this->payment_merchant_code);
+        Redsys::setCurrency($this->payment_currency);
+        Redsys::setTransactiontype($this->payment_transaction_type);
+        Redsys::setTerminal($this->payment_terminal);
+        Redsys::setMethod($this->payment_redsys_method);
+        Redsys::setNotification($this->payment_redsys_notif);
+        Redsys::setUrlOk($this->payment_api_url_ok);
+        Redsys::setUrlKo($this->payment_api_url_ko);
+        Redsys::setVersion($this->payment_version);
+        Redsys::setTradeName($this->payment_trade_name);
+        Redsys::setTitular($this->payment_titular);
+        Redsys::setProductDescription($this->payment_product_description);
+        Redsys::setEnviroment($this->payment_enviroiment);
 
-        $redsys->setAmount($this->payment_amount);
-        $redsys->setOrder($this->payment_order);
-        $redsys->setMerchantcode($this->payment_merchant_code); //Reemplazar por el código que proporciona el banco
-        $redsys->setCurrency($this->payment_currency);
-        $redsys->setTransactiontype($this->payment_transaction_type);
-        $redsys->setTerminal($this->payment_terminal);
-        $redsys->setMethod($this->payment_redsys_method); //Solo pago con tarjeta, no mostramos iupay
-        $redsys->setNotification($this->payment_redsys_notif); //Url de notificacion
-        $redsys->setUrlOk($this->payment_api_url_ok); //Url OK
-        $redsys->setUrlKo($this->payment_api_url_ko); //Url KO
-        $redsys->setVersion($this->payment_version);
-        $redsys->setTradeName($this->payment_trade_name);
-        $redsys->setTitular($this->payment_titular);
-        $redsys->setProductDescription($this->payment_product_description);
-        $redsys->setEnviroment('live'); //Entorno test
+        $signature = Redsys::generateMerchantSignature($key);
+        Redsys::setMerchantSignature($signature);
 
-        $signature = $redsys->generateMerchantSignature($key);
-        $redsys->setMerchantSignature($signature);
-
-        return $redsys->createForm();
+        return Redsys::createForm();
     }
 }
