@@ -1,6 +1,6 @@
 <?php
 
-namespace Llorcasantana\Payments_laravel_ll\Src;
+namespace Llorcasantana\PaymentsLaravelLl;
 
 class Calculator
 {

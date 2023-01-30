@@ -14,12 +14,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Llorcasantana\\PaymentsLaravelLl\\": "src/"
+            "Llorcasantana\\PaymentsLaravelLl\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Llorcasantana\\PaymentsLaravelLl\\": "tests/"
+            "Llorcasantana\\PaymentsLaravelLl\\Tests\\": "tests"
         }
     },
     "authors": [
