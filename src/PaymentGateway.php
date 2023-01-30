@@ -52,7 +52,8 @@ class PaymentGateway
         $claveSHA256 = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7';
         return [
             'signature'=>$miObj->createMerchantSignature($claveSHA256),
-            'params'=>$miObj->createMerchantParameters()
+            'params'=>$miObj->createMerchantParameters(),
+            'result'=>true
         ];
     }
 }
