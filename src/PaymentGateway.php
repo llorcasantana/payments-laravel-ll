@@ -36,7 +36,7 @@ class PaymentGateway
      /*
      * PAYMENTS METHODS
      */
-    private function initRedsys(): string
+    private function initRedsys(): array
     {
         $miObj = new Redsys();
         $miObj->setParameter("DS_MERCHANT_AMOUNT", $this->payment_ammount);
@@ -50,6 +50,9 @@ class PaymentGateway
         $miObj->setParameter("DS_MERCHANT_URLKO", $this->payment_url_no_ok);
         $miObj->createMerchantParameters();
         $claveSHA256 = 'sq7HjrUOBfKmC576ILgskD5srU870gJ7';
-        return $miObj->createMerchantSignature($claveSHA256);
+        return [
+            'signature'=>$miObj->createMerchantSignature($claveSHA256),
+            'params'=>$miObj->createMerchantParameters()
+        ];
     }
 }
