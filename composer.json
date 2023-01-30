@@ -1,5 +1,5 @@
 {
-    "name": "llorcasantana/payments-laravel-ll",
+    "name": "llorcasantana/payments_laravel_ll",
     "description": "Pasarelas de pago para laravel",
     "type": "library",
     "require": {
@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Llorcasantana\\PaymentsLaravelLl\\": "tests/"
         }
     },
     "authors": [
