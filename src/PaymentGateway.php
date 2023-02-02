@@ -2,8 +2,7 @@
 
 namespace Llorcasantana\PaymentsLaravelLl;
 
-
-use \Ssheduardo\Redsys\Facades\Redsys;
+use Llorcasantana\PaymentsLaravelLl\payments_libraries\RedsysBank as Redsys;
 
 class PaymentGateway
 {
@@ -28,6 +27,11 @@ class PaymentGateway
     public string $payment_api_url_ko = '';
     public string $payment_enviroiment = '';
     public string $payment_key = '';
+    public string $custom_style_submit = '';
+    public string $custon_button_class = '';
+    public string $custom_button_value = '';
+    public string $setIdSubmit = '';
+    public string $setNameSubmit = '';
 
     public function loadData(): string
     {
@@ -47,25 +51,31 @@ class PaymentGateway
     private function initRedsys(): string
     {
         $key = $this->payment_key;
-        Redsys::setAmount($this->payment_amount);
-        Redsys::setOrder($this->num_operacion);
-        Redsys::setMerchantcode($this->payment_merchant_code);
-        Redsys::setCurrency($this->payment_currency);
-        Redsys::setTransactiontype($this->payment_transaction_type);
-        Redsys::setTerminal($this->payment_terminal);
-        Redsys::setMethod($this->payment_redsys_method);
-        Redsys::setNotification($this->payment_redsys_notif);
-        Redsys::setUrlOk($this->payment_api_url_ok);
-        Redsys::setUrlKo($this->payment_api_url_ko);
-        Redsys::setVersion($this->payment_version);
-        Redsys::setTradeName($this->payment_trade_name);
-        Redsys::setTitular($this->payment_titular);
-        Redsys::setProductDescription($this->payment_product_description);
-        Redsys::setEnviroment($this->payment_enviroiment);
+        $redsys = new Redsys();
+        $redsys->setAmount($this->payment_amount);
+        $redsys->setOrder($this->num_operacion);
+        $redsys->setMerchantcode($this->payment_merchant_code);
+        $redsys->setCurrency($this->payment_currency);
+        $redsys->setTransactiontype($this->payment_transaction_type);
+        $redsys->setTerminal($this->payment_terminal);
+        $redsys->setMethod($this->payment_redsys_method);
+        $redsys->setNotification($this->payment_redsys_notif);
+        $redsys->setUrlOk($this->payment_api_url_ok);
+        $redsys->setUrlKo($this->payment_api_url_ko);
+        $redsys->setVersion($this->payment_version);
+        $redsys->setTradeName($this->payment_trade_name);
+        $redsys->setTitular($this->payment_titular);
+        $redsys->setProductDescription($this->payment_product_description);
+        $redsys->setEnvironment($this->payment_enviroiment);
+        $redsys->setClassSubmit($this->custon_button_class);
+        $redsys->setStyleSubmit($this->custom_style_submit);
+        $redsys->setValueSubmit($this->custom_button_value);
 
-        $signature = Redsys::generateMerchantSignature($key);
-        Redsys::setMerchantSignature($signature);
+        $signature = $redsys->generateMerchantSignature($key);
+        $redsys->setMerchantSignature($signature);
 
-        return Redsys::createForm();
+
+
+        return $redsys->createForm();
     }
 }
